@@ -1,0 +1,19 @@
+{
+    "name": "yidas/phpexcel-helper",
+    "description": "Creating Excel with easy and artistic way based on PHPExcel",
+    "keywords": ["PHPExcel", "php", "excel", "sheet", "phpexcel helper"],
+    "homepage": "https://github.com/yidas/phpexcel-helper",
+    "type": "library",
+    "license": "MIT",
+    "support": {
+        "issues": "https://github.com/yidas/phpexcel-helper/issues",
+        "source": "https://github.com/yidas/phpexcel-helperp"
+    },
+    "minimum-stability": "stable",
+    "require": {
+        "phpoffice/phpexcel": "1.*"
+    },
+    "autoload": {
+        "classmap": ["src/"]
+    }
+}
