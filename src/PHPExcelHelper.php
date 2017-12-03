@@ -4,7 +4,7 @@
  * PHPExcel Helper
  * 
  * @author      Nick Tsai <myintaer@gmail.com>
- * @version     1.0.0
+ * @version     1.1.0
  * @filesource 	PHPExcel <https://github.com/PHPOffice/PHPExcel>
  * @see         https://github.com/yidas/phpexcel-helper
  * @example
@@ -37,6 +37,16 @@ class PHPExcelHelper
      * @var int Current column offset for the actived sheet
      */
     private static $_offsetCol;
+
+    /**
+     * @var array Map of Coordinates by keys
+     */
+    private static $_keyCoordinateMap;
+
+    /**
+     * @var int Map of ranges by keys
+     */
+    private static $_keyRangeMap;
 
     /** 
      * New or set an PHPExcel object
@@ -171,6 +181,7 @@ class PHPExcelHelper
      *   @param int 'col' Column span for mergence
      *   @param int 'row' Row span for mergence
      *   @param int 'skip' Column skip counter
+     *   @param string|int 'key' Cell key for index
      *   @param mixed 'value' Cell value
      * @return self
      */
@@ -186,13 +197,14 @@ class PHPExcelHelper
         
         foreach ($rowData as $key => $value) {
             
-            // Merge Cells option
+            // Optional Cell
             if (is_array($value)) {
                 
                 // Options
                 $colspan = isset($value['col']) ? $value['col'] : 1;
                 $rowspan = isset($value['row']) ? $value['row'] : 1;
                 $skip = isset($value['skip']) ? $value['skip'] : 1;
+                $key = isset($value['key']) ? $value['key'] : NULL;
                 $value = isset($value['value']) ? $value['value'] : NULL;
 
                 $sheetObj->setCellValueByColumnAndRow($posCol, self::$_offsetRow, $value);
@@ -207,6 +219,28 @@ class PHPExcelHelper
                         . self::num2alpha($posCol).$posRow;
                     $sheetObj->mergeCells($mergeVal);
                 }
+
+                // Save key Map
+                if ($key) {
+                    $startCoordinate = self::num2alpha($posCol) . self::$_offsetRow;
+                    // Range Map
+                    if (isset($mergeVal)) {
+                        self::$_keyRangeMap[$key] = $mergeVal;
+                        // Reset column coordinate
+                        $startCoordinate = self::num2alpha($posColLast) . self::$_offsetRow;
+                    } 
+                    elseif ($skip > 1) {
+                        self::$_keyRangeMap[$key] = $startCoordinate
+                            . ':'
+                            . self::num2alpha($posCol+$skip) . self::$_offsetRow;
+                    } 
+                    else {
+                        self::$_keyRangeMap[$key] = "{$startCoordinate}:{$startCoordinate}";
+                    }
+                    // Coordinate Map
+                    self::$_keyCoordinateMap[$key] = $startCoordinate;
+                }
+
                 // Skip option
                 $posCol += $skip;
 
@@ -260,6 +294,36 @@ class PHPExcelHelper
         $objWriter = \PHPExcel_IOFactory::createWriter($objPHPExcel, $excelType);
         $objWriter->save('php://output');
         exit;
+    }
+
+    /**
+     * Get Coordinate Map by key or all
+     * 
+     * @param string|int $key Key set by addRow()
+     * @return string|array Coordinate string | Key-Coordinate array
+     */
+    public static function getCoordinateMap($key=NULL)
+    {
+        if ($key) {
+            return isset(self::$_keyCoordinateMap[$key]) ? self::$_keyCoordinateMap[$key] : NULL;
+        } else {
+            return self::$_keyCoordinateMap;
+        }
+    }
+
+    /**
+     * Get Range Map by key or all
+     * 
+     * @param string|int $key Key set by addRow()
+     * @return string|array Range string | Key-Range array
+     */
+    public static function getRangeMap($key=NULL)
+    {
+        if ($key) {
+            return isset(self::$_keyRangeMap[$key]) ? self::$_keyRangeMap[$key] : NULL;
+        } else {
+            return self::$_keyRangeMap;
+        }
     }
 
     /**
