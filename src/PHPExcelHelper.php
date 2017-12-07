@@ -4,7 +4,7 @@
  * PHPExcel Helper
  * 
  * @author      Nick Tsai <myintaer@gmail.com>
- * @version     1.1.0
+ * @version     1.2.0
  * @filesource 	PHPExcel <https://github.com/PHPOffice/PHPExcel>
  * @see         https://github.com/yidas/phpexcel-helper
  * @example
@@ -297,7 +297,7 @@ class PHPExcelHelper
     }
 
     /**
-     * Get Coordinate Map by key or all
+     * Get Coordinate Map by key or all from the actived sheet
      * 
      * @param string|int $key Key set by addRow()
      * @return string|array Coordinate string | Key-Coordinate array
@@ -312,7 +312,7 @@ class PHPExcelHelper
     }
 
     /**
-     * Get Range Map by key or all
+     * Get Range Map by key or all from the actived sheet
      * 
      * @param string|int $key Key set by addRow()
      * @return string|array Range string | Key-Range array
@@ -324,6 +324,62 @@ class PHPExcelHelper
         } else {
             return self::$_keyRangeMap;
         }
+    }
+
+    /**
+     * Get Range of all actived cells from the actived sheet
+     * 
+     * @return string Range string
+     */
+    public static function getRangeAll($key=NULL)
+    {
+        $sheetObj = self::validSheetObj();
+        
+        return self::num2alpha(self::$_offsetCol). '1:'. $sheetObj->getHighestColumn(). $sheetObj->getHighestRow();
+    }
+
+    /**
+     * Set WrapText for all cells or set by giving range to the actived sheet
+     * 
+     * @param string $range Cells range format
+     * @param bool $value PHPExcel setWrapText() argument
+     * @return self
+     */
+    public static function setWrapText($range=NULL, $value=true)
+    {
+        $sheetObj = self::validSheetObj();
+
+        $range = ($range) ? $range : self::getRangeAll();
+
+        $sheetObj->getStyle($range)
+            ->getAlignment()
+            ->setWrapText($value); 
+        
+        return new static();
+    }
+
+    /**
+     * Set AutoSize for all cells or set by giving column range to the actived sheet
+     * 
+     * @param string $colAlphaStart Column Alpah of start
+     * @param string $colAlphaEnd Column Alpah of end
+     * @param bool $value PHPExcel AutoSize() argument
+     * @return self
+     */
+    public static function setAutoSize($colAlphaStart=NULL, $colAlphaEnd=NULL, $value=true)
+    {
+        $sheetObj = self::validSheetObj();
+
+        $colStart = ($colAlphaStart) ? self::alpha2num($colAlphaStart) : self::$_offsetCol;
+        $colEnd = ($colAlphaEnd) 
+            ? self::alpha2num($colAlphaEnd) 
+            : self::alpha2num($sheetObj->getHighestColumn());
+
+        foreach (range($colStart,$colEnd ) as $key => $colNum) {
+            $sheetObj->getColumnDimension(self::num2alpha($colNum))->setAutoSize($value);
+        }
+
+        return new static();
     }
 
     /**

@@ -168,3 +168,22 @@ Array
 )
 A1
 ```
+
+### Cells Format
+
+* setWrapText(): Set to all cells by default
+* setAutoSize(): Set to all cells(columns) by default
+
+```php
+\PHPExcelHelper::newExcel()
+    ->addRow(['Title', 'Content'])
+    ->addRows([
+        ['Basic Plan', "*Interface\n*Search Tool"],
+        ['Advanced Plan', "*Interface\n*Search Tool\n*Statistics"],
+    ])
+    ->setWrapText()
+    // ->setWrapText('B2')
+    ->setAutoSize()
+    // ->setAutoSize('B')
+    ->output('Formatted Excel');  
+```
