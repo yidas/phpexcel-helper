@@ -147,9 +147,13 @@ $objPHPExcelSheet->setCellValue('A3', '2');
 
 print_r(\PHPExcelHelper::getCoordinateMap());
 print_r(\PHPExcelHelper::getRangeMap());
+// print_r(\PHPExcelHelper::getColumnMap());
+// print_r(\PHPExcelHelper::getRowMap());
 echo "sn start cell: ". \PHPExcelHelper::getCoordinateMap('sn');
+echo "\nsn start column: ". \PHPExcelHelper::getColumnMap('sn');
+echo "\nsn start row: ". \PHPExcelHelper::getRowMap('sn');
 echo "\nsn range: ". \PHPExcelHelper::getRangeMap('sn');
-echo "\nAll range: ". \PHPExcelHelper::getRangeAll();
+echo "\nAll range: ". \PHPExcelHelper::getRangeAll(); 
 ```
 
 The result could be:
@@ -174,6 +178,8 @@ Array
     [block-skip] => D2:E2
 )
 sn start cell: A1
+sn start column: A
+sn start row: 1
 sn range: A1:A2
 All range: A1:E4
 ```

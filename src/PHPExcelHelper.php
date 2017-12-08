@@ -4,7 +4,7 @@
  * PHPExcel Helper
  * 
  * @author      Nick Tsai <myintaer@gmail.com>
- * @version     1.2.1
+ * @version     1.3.0
  * @filesource 	PHPExcel <https://github.com/PHPOffice/PHPExcel>
  * @see         https://github.com/yidas/phpexcel-helper
  * @example
@@ -39,9 +39,19 @@ class PHPExcelHelper
     private static $_offsetCol;
 
     /**
-     * @var array Map of Coordinates by keys
+     * @var array Map of coordinates by keys
      */
     private static $_keyCoordinateMap;
+
+    /**
+     * @var array Map of column alpha by keys
+     */
+    private static $_keyColumnMap;
+
+    /**
+     * @var array Map of row number by keys
+     */
+    private static $_keyRowMap;
 
     /**
      * @var int Map of ranges by keys
@@ -222,12 +232,14 @@ class PHPExcelHelper
 
                 // Save key Map
                 if ($key) {
-                    $startCoordinate = self::num2alpha($posCol) . self::$_offsetRow;
+                    $startColumn = self::num2alpha($posCol);
+                    $startCoordinate = $startColumn. self::$_offsetRow;
                     // Range Map
                     if (isset($mergeVal)) {
                         self::$_keyRangeMap[$key] = $mergeVal;
                         // Reset column coordinate
-                        $startCoordinate = self::num2alpha($posColLast) . self::$_offsetRow;
+                        $startColumn = self::num2alpha($posColLast);
+                        $startCoordinate = $startColumn. self::$_offsetRow;
                     } 
                     elseif ($skip > 1) {
                         self::$_keyRangeMap[$key] = $startCoordinate
@@ -237,8 +249,10 @@ class PHPExcelHelper
                     else {
                         self::$_keyRangeMap[$key] = "{$startCoordinate}:{$startCoordinate}";
                     }
-                    // Coordinate Map
+                    // Coordinate & col-row Map
                     self::$_keyCoordinateMap[$key] = $startCoordinate;
+                    self::$_keyColumnMap[$key] = $startColumn;
+                    self::$_keyRowMap[$key] = self::$_offsetRow;
                 }
 
                 // Skip option
@@ -308,6 +322,36 @@ class PHPExcelHelper
             return isset(self::$_keyCoordinateMap[$key]) ? self::$_keyCoordinateMap[$key] : NULL;
         } else {
             return self::$_keyCoordinateMap;
+        }
+    }
+
+    /**
+     * Get Column Alpha Map by key or all from the actived sheet
+     * 
+     * @param string|int $key Key set by addRow()
+     * @return string|array Column alpha string | Key-Coordinate array
+     */
+    public static function getColumnMap($key=NULL)
+    {
+        if ($key) {
+            return isset(self::$_keyColumnMap[$key]) ? self::$_keyColumnMap[$key] : NULL;
+        } else {
+            return self::$_keyColumnMap;
+        }
+    }
+
+    /**
+     * Get Row Number Map by key or all from the actived sheet
+     * 
+     * @param string|int $key Key set by addRow()
+     * @return int|array Row number | Key-Coordinate array
+     */
+    public static function getRowMap($key=NULL)
+    {
+        if ($key) {
+            return isset(self::$_keyRowMap[$key]) ? self::$_keyRowMap[$key] : NULL;
+        } else {
+            return self::$_keyRowMap;
         }
     }
 
