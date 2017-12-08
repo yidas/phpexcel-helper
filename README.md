@@ -3,6 +3,11 @@ PHPExcel Helper
 
 Creating Excel with easy and artistic way based on PHPExcel
 
+[![Latest Stable Version](https://poser.pugx.org/yidas/phpexcel-helper/v/stable?format=flat-square)](https://packagist.org/packages/yidas/phpexcel-helper)
+[![Total Downloads](https://poser.pugx.org/yidas/phpexcel-helper/downloads?format=flat-square)](https://packagist.org/packages/yidas/phpexcel-helper)
+[![Latest Unstable Version](https://poser.pugx.org/yidas/phpexcel-helper/v/unstable?format=flat-square)](https://packagist.org/packages/yidas/phpexcel-helper)
+[![License](https://poser.pugx.org/yidas/phpexcel-helper/license?format=flat-square)](https://packagist.org/packages/yidas/phpexcel-helper)
+
 This library is a helper that encapsulate [PHPExcel](https://github.com/PHPOffice/PHPExcel/blob/1.8/Classes/PHPExcel/Worksheet.php) for simple usage.
 
 ---
@@ -138,11 +143,13 @@ $objPHPExcelSheet->setCellValue('A3', '2');
         ['1', 'Computer','電腦','#15'],
         ['2', 'Phone','手機','#4','#62'],
     ]);
-    // ->output('Merged Excel');  
+// ->output('Merged Excel');  
 
 print_r(\PHPExcelHelper::getCoordinateMap());
 print_r(\PHPExcelHelper::getRangeMap());
-echo \PHPExcelHelper::getCoordinateMap('sn');
+echo "sn start cell: ". \PHPExcelHelper::getCoordinateMap('sn');
+echo "\nsn range: ". \PHPExcelHelper::getRangeMap('sn');
+echo "\nAll range: ". \PHPExcelHelper::getRangeAll();
 ```
 
 The result could be:
@@ -164,9 +171,11 @@ Array
     [block] => D1:E2
     [lang-en] => B2:B2
     [lang-zh] => C2:C2
-    [block-skip] => D2:F2
+    [block-skip] => D2:E2
 )
-A1
+sn start cell: A1
+sn range: A1:A2
+All range: A1:E4
 ```
 
 ### Cells Format

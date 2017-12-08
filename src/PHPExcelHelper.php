@@ -4,7 +4,7 @@
  * PHPExcel Helper
  * 
  * @author      Nick Tsai <myintaer@gmail.com>
- * @version     1.2.0
+ * @version     1.2.1
  * @filesource 	PHPExcel <https://github.com/PHPOffice/PHPExcel>
  * @see         https://github.com/yidas/phpexcel-helper
  * @example
@@ -232,7 +232,7 @@ class PHPExcelHelper
                     elseif ($skip > 1) {
                         self::$_keyRangeMap[$key] = $startCoordinate
                             . ':'
-                            . self::num2alpha($posCol+$skip) . self::$_offsetRow;
+                            . self::num2alpha($posCol+($skip-1)) . self::$_offsetRow;
                     } 
                     else {
                         self::$_keyRangeMap[$key] = "{$startCoordinate}:{$startCoordinate}";
@@ -331,7 +331,7 @@ class PHPExcelHelper
      * 
      * @return string Range string
      */
-    public static function getRangeAll($key=NULL)
+    public static function getRangeAll()
     {
         $sheetObj = self::validSheetObj();
         
