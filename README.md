@@ -12,6 +12,22 @@ This library is a helper that encapsulate [PHPExcel](https://github.com/PHPOffic
 
 ---
 
+OUTLINE
+-------
+
+* [DEMONSTRATION](#demonstration)
+
+* [INSTALLATION](#installation)
+
+* [USAGE](#usage)
+  - [Merge Cells](#merge-cells)
+  - [PHPExcel & Sheet Object](#phpexcel--sheet-object)
+  - [Multiple Sheets](#multiple-sheets)
+  - [Map of Coordinates & Ranges](#multiple-sheets)
+  - [Cells Format](#cells-format)
+
+---
+
 DEMONSTRATION
 -------------
 

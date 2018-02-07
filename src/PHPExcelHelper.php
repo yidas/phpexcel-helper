@@ -58,6 +58,28 @@ class PHPExcelHelper
      */
     private static $_keyRangeMap;
 
+    /**
+     * Extension list for reader
+     */
+    private static $_readerExtensions = [
+        'Excel5' => '.xls',
+        'Excel2003XML' => '.xls',
+        'Excel2007' => '.xlsx',
+        'OOCalc' => '.ods',
+        'SYLK' => '.slk',
+        'Gnumeric' => '.gnumeric',
+        'CSV' => '.csv',
+        'HTML' => '.html',
+    ];
+
+    /**
+     * Extension list for writer
+     */
+    private static $_writerExtensions = [
+        'Excel5' => '.xls',
+        'Excel2007' => '.xlsx',
+    ];
+
     /** 
      * New or set an PHPExcel object
      * 
@@ -293,10 +315,15 @@ class PHPExcelHelper
      */
     public static function output($filename='excel', $excelType='Excel2007')
     {
+        /**
+         * @todo Content-Type Mapping
+         */
+        $extension = isset(self::$_writerExtensions[$excelType]) ? self::$_writerExtensions[$excelType] : '.xlsx';
+        
         $objPHPExcel = self::validExcelObj();
         
         header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-        header('Content-Disposition: attachment;filename="'.$filename.'.xlsx"');
+        header('Content-Disposition: attachment;filename="'. $filename. $extension);
         header('Cache-Control: max-age=0');
         // If you're serving to IE 9, then the following may be needed
         header('Cache-Control: max-age=1');
