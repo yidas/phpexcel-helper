@@ -4,11 +4,13 @@ PHPExcel Helper
 Creating Excel with easy and artistic way based on PHPExcel
 
 [![Latest Stable Version](https://poser.pugx.org/yidas/phpexcel-helper/v/stable?format=flat-square)](https://packagist.org/packages/yidas/phpexcel-helper)
-[![Total Downloads](https://poser.pugx.org/yidas/phpexcel-helper/downloads?format=flat-square)](https://packagist.org/packages/yidas/phpexcel-helper)
 [![Latest Unstable Version](https://poser.pugx.org/yidas/phpexcel-helper/v/unstable?format=flat-square)](https://packagist.org/packages/yidas/phpexcel-helper)
 [![License](https://poser.pugx.org/yidas/phpexcel-helper/license?format=flat-square)](https://packagist.org/packages/yidas/phpexcel-helper)
 
-This library is a helper that encapsulate [PHPExcel](https://github.com/PHPOffice/PHPExcel/blob/1.8/Classes/PHPExcel/Worksheet.php) for simple usage.
+
+[PHPExcel](https://github.com/PHPOffice/PHPExcel/blob/1.8/Classes/PHPExcel/Worksheet.php) is no longer maintained and should not be used anymore.
+
+You should migrate to this library's successor [yidas/phpspreadsheet-helper](https://github.com/yidas/phpspreadsheet-helper).
 
 ---
 
